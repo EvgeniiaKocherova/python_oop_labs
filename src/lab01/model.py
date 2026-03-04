@@ -1,3 +1,5 @@
+from validate import BookValidator
+
 class Book:
     _catalog_of_books = []
 
@@ -20,44 +22,52 @@ class Book:
         # if price is not None:  
         #     if not isinstance(price, (int, float)) or price < 0:
         #         raise ValueError("Цена должна быть неотрицательным числом")
-        self._validate_title(title)
-        self._validate_author(author)
-        self._validate_year(year)
-        self._validate_pages(pages)
-        self._validate_price(price)
-    
-        self._title = title
-        self._author = author
-        self._year = year
-        self._pages = pages
-        self._price = price
+        # self._validate_title(title)
+        # self._validate_author(author)
+        # self._validate_year(year)
+        # self._validate_pages(pages)
+        # self._validate_price(price)
+        self._title = BookValidator.validate_title(title)
+        self._author = BookValidator.validate_author(author)
+        self._year = BookValidator.validate_year(year)
+        self._pages = BookValidator.validate_pages(pages)
+        self._price = BookValidator.validate_price(price)
         self._is_available = is_available
 
         Book._catalog_of_books.append(self)
+    
+        # self._title = title
+        # self._author = author
+        # self._year = year
+        # self._pages = pages
+        # self._price = price
+        # self._is_available = is_available
 
-    def _validate_title(self, title):
-        if not title or not isinstance(title, str):
-            raise ValueError("Название должно быть непустой строкой")
+        # Book._catalog_of_books.append(self)
+
+    # def _validate_title(self, title):
+    #     if not title or not isinstance(title, str):
+    #         raise ValueError("Название должно быть непустой строкой")
         
-    def _validate_author(self, author):
-        if not author or not isinstance(author, str):
-            raise ValueError("Автор должен быть непустой строкой")
+    # def _validate_author(self, author):
+    #     if not author or not isinstance(author, str):
+    #         raise ValueError("Автор должен быть непустой строкой")
         
-    def _validate_year(self, year):
-        if not isinstance(year, int) or year < 1450 or year > 2026:
-            raise ValueError("Год должен быть числом от 1450 до 2026")
+    # def _validate_year(self, year):
+    #     if not isinstance(year, int) or year < 1450 or year > 2026:
+    #         raise ValueError("Год должен быть числом от 1450 до 2026")
         
-    def _validate_pages(self, pages):
-        if pages is None:
-            raise ValueError("Количество страниц должно быть указано")
+    # def _validate_pages(self, pages):
+    #     if pages is None:
+    #         raise ValueError("Количество страниц должно быть указано")
         
-        if not isinstance(pages, int) or pages <= 0:
-            raise ValueError("Количество страниц должно быть положительным числом")  
+    #     if not isinstance(pages, int) or pages <= 0:
+    #         raise ValueError("Количество страниц должно быть положительным числом")  
         
-    def _validate_price(self, price):
-        if price is not None:  
-            if not isinstance(price, (int, float)) or price < 0:
-                raise ValueError("Цена должна быть неотрицательным числом")
+    # def _validate_price(self, price):
+    #     if price is not None:  
+    #         if not isinstance(price, (int, float)) or price < 0:
+    #             raise ValueError("Цена должна быть неотрицательным числом")
 
     def __str__(self):
         if self._is_available: 
@@ -114,8 +124,7 @@ class Book:
             raise ValueError("цена должна быть больше нуля")
         if not self._is_available:
             raise ValueError("Нельзя изменить цену книги, которая выдана читателю")
-        self._validate_price(new_price)
-        self._price = new_price
+        self._price = BookValidator.validate_price(new_price)
 
     @year.setter
     def year(self, new_year):
@@ -127,8 +136,7 @@ class Book:
             raise ValueError("год издания не может быть больше текущего")
         if not self._is_available:
             raise ValueError("Нельзя изменить год книги, которая выдана читателю")
-        self._validate_year(new_year)
-        self._year = new_year
+        self._year = BookValidator.validate_year(new_year)
         
     def give_book(self):
         """Выдать книгу читателю"""
