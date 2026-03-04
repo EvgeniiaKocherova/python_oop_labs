@@ -405,7 +405,7 @@ book3.repair()
 
 
 ```
-Пример запуска demo.py
+## Пример запуска demo.py  
 ![скриншот выполения запуска demo.py](../../images/lab01/img01.png)  
 
 ![скриншот выполения запуска demo.py](../../images/lab01/img02.png)
