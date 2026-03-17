@@ -30,11 +30,3 @@ class BookValidator:
         if not isinstance(pages, int) or pages <= 0:
             raise ValueError("Количество страниц должно быть положительным числом")
         return pages
-    
-    @staticmethod
-    def validate_price(price):
-        """Проверка цены"""
-        if price is not None:
-            if not isinstance(price, (int, float)) or price < 0:
-                raise ValueError("Цена должна быть неотрицательным числом")
-        return price

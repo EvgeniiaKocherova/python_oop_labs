@@ -16,7 +16,6 @@
 - `_author` — автор
 - `_year` — год издания
 - `_pages` — количество страниц
-- `_price` — стоимость (может быть None для бесплатных книг)
 - `_is_available` — доступность (True/False)
 
 #### Атрибут класса
@@ -29,7 +28,7 @@
 
 #### Свойства (@property) и сеттеры
 - Геттеры для всех атрибутов
-- Сеттеры для `price` и `year` с валидацией данных
+- Сеттеры для `year` с валидацией данных
 - Валидация учитывает состояние книги (нельзя менять данные, если книга выдана)
 
 #### Бизнес-методы
@@ -44,7 +43,6 @@
 - `_validate_author()`
 - `_validate_year()`
 - `_validate_pages()`
-- `_validate_price()`
 
 Код для реализации model.py:
 ```
@@ -53,71 +51,14 @@ from validate import BookValidator
 class Book:
     _catalog_of_books = []
 
-    def __init__(self, title, author, year, pages, price, is_available=True):
-        # if not title or not isinstance(title, str):
-        #     raise ValueError("Название должно быть непустой строкой")
-        
-        # if not author or not isinstance(author, str):
-        #     raise ValueError("Автор должен быть непустой строкой")
-        
-        # if not isinstance(year, int) or year < 1450 or year > 2026:
-        #     raise ValueError("Год должен быть числом от 1450 до 2026")
-        
-        # if pages is None:
-        #     raise ValueError("Количество страниц должно быть указано")
-        
-        # if not isinstance(pages, int) or pages <= 0:
-        #     raise ValueError("Количество страниц должно быть положительным числом")
-        
-        # if price is not None:  
-        #     if not isinstance(price, (int, float)) or price < 0:
-        #         raise ValueError("Цена должна быть неотрицательным числом")
-        # self._validate_title(title)
-        # self._validate_author(author)
-        # self._validate_year(year)
-        # self._validate_pages(pages)
-        # self._validate_price(price)
+    def __init__(self, title, author, year, pages, is_available=True):
         self._title = BookValidator.validate_title(title)
         self._author = BookValidator.validate_author(author)
         self._year = BookValidator.validate_year(year)
         self._pages = BookValidator.validate_pages(pages)
-        self._price = BookValidator.validate_price(price)
         self._is_available = is_available
 
         Book._catalog_of_books.append(self)
-    
-        # self._title = title
-        # self._author = author
-        # self._year = year
-        # self._pages = pages
-        # self._price = price
-        # self._is_available = is_available
-
-        # Book._catalog_of_books.append(self)
-
-    # def _validate_title(self, title):
-    #     if not title or not isinstance(title, str):
-    #         raise ValueError("Название должно быть непустой строкой")
-        
-    # def _validate_author(self, author):
-    #     if not author or not isinstance(author, str):
-    #         raise ValueError("Автор должен быть непустой строкой")
-        
-    # def _validate_year(self, year):
-    #     if not isinstance(year, int) or year < 1450 or year > 2026:
-    #         raise ValueError("Год должен быть числом от 1450 до 2026")
-        
-    # def _validate_pages(self, pages):
-    #     if pages is None:
-    #         raise ValueError("Количество страниц должно быть указано")
-        
-    #     if not isinstance(pages, int) or pages <= 0:
-    #         raise ValueError("Количество страниц должно быть положительным числом")  
-        
-    # def _validate_price(self, price):
-    #     if price is not None:  
-    #         if not isinstance(price, (int, float)) or price < 0:
-    #             raise ValueError("Цена должна быть неотрицательным числом")
 
     def __str__(self):
         if self._is_available: 
@@ -125,14 +66,10 @@ class Book:
         else: 
             status = "не в наличии"
 
-        if self._price is None:
-            price_str = "бесплатно"
-        else:
-            price_str = f"{self._price} руб."
-        return f'{self._title} | {self._author} | {self._year} | {price_str} | {status}'
+        return f'{self._title} | {self._author} | {self._year} | {status}'
     
     def __repr__(self):
-        return f"Book('{self._title}', '{self._author}', {self._year}, {self._pages}, {self._price}, {self._is_available})"
+        return f"Book('{self._title}', '{self._author}', {self._year}, {self._pages}, {self._is_available})"
     
     def __eq__(self, other):
         if not isinstance(other, Book):
@@ -158,23 +95,6 @@ class Book:
     def pages(self):
         """Геттер для количества страниц"""
         return self._pages
-    
-    @property
-    def price(self):
-        """Геттер для цены"""
-        if not self._is_available:
-            return f"{self._price} руб. (книга выдана, цена может быть изменена после возврата)"
-        return self._price
-
-    @price.setter
-    def price(self, new_price):
-        if not isinstance(new_price, (int, float)):
-            raise TypeError("цена должна быть числом")
-        if new_price < 0:
-            raise ValueError("цена должна быть больше нуля")
-        if not self._is_available:
-            raise ValueError("Нельзя изменить цену книги, которая выдана читателю")
-        self._price = BookValidator.validate_price(new_price)
 
     @year.setter
     def year(self, new_year):
@@ -212,7 +132,6 @@ class Book:
             print("Нельзя отправить на реставрацию книгу, которая выдана")
             return False
         print(f"Книга '{self._title}' отправлена на реставрацию")
-        # Здесь можно добавить логику реставрации
         return True
     
     @classmethod
@@ -224,7 +143,7 @@ class Book:
         cnt = 1
         for book in cls._catalog_of_books:
             print(f"{cnt}. {book}")
-            cnt += 1 
+            cnt += 1
 ```
 ### Валидация реализована в отдельном файле validate.py
 ```
@@ -260,14 +179,6 @@ class BookValidator:
         if not isinstance(pages, int) or pages <= 0:
             raise ValueError("Количество страниц должно быть положительным числом")
         return pages
-    
-    @staticmethod
-    def validate_price(price):
-        """Проверка цены"""
-        if price is not None:
-            if not isinstance(price, (int, float)) or price < 0:
-                raise ValueError("Цена должна быть неотрицательным числом")
-        return price
 ```
 
 ### Код для реализации demo.py:
@@ -276,9 +187,9 @@ from model import Book
 
 print("===Создание книг===")
 #Демонстрация создания книг
-book1 = Book("Вишневый сад", "Антон Павлович Чехов", 1904, 89, 200)
-book2 = Book("Мастер и Маргарита", "Михаил Булгаков", 1967, 480, 950, False)
-book3 = Book("Война и мир", "Лев Толстой", 1867, 1300, 1200)
+book1 = Book("Вишневый сад", "Антон Павлович Чехов", 1904, 89)
+book2 = Book("Мастер и Маргарита", "Михаил Булгаков", 1967, 480, False)
+book3 = Book("Война и мир", "Лев Толстой", 1867, 1300)
 
 print("Созданы следующие книги:")
 print(book1)
@@ -296,7 +207,7 @@ print("            ")
 
 print("===Сравнение книг===")
 #Демонстрация сравнения книг
-book4 = Book("Вишневый сад", "Антон Павлович Чехов", 1904, 89, 200)
+book4 = Book("Вишневый сад", "Антон Павлович Чехов", 1904, 89)
 print("Сравниваем книги по названию и автору:")
 print(f"book1 и book2 - разные книги: {book1 == book2}")
 print(f"book1 и саму себя: {book1 == book1}")
@@ -304,29 +215,17 @@ print(f"book1 и book4 - одинаковые название и автор: {b
 print()
 print("            ")
 
-print("===Демонстрация книг без цены===")
-book5 = Book("Бесплатная книга", "автор", 2020, 50, None)
-print("Бесплатная книга:")
-print(book5)
-print("            ")
-
-
 print("===Геттеры===")
 #Демонстрация геттеров
 print("Информация о первой книге:")
 print(f"Название: {book1.title}")
 print(f"Автор: {book1.author}")
 print(f"Год издания: {book1.year}")
-print(f"Цена: {book1.price} руб.")
 print(f"Количество страниц: {book1.pages}")
 print("            ")
 
 print("===Сеттеры===")
 #Демонстрация сеттеров
-print(f"Старая цена book1: {book1.price} руб.")
-book1.price = 370
-print(f"Новая цена book1: {book1.price} руб.")
-
 print(f"Старый год book1: {book1.year}")
 book1.year = 2024
 print(f"Новый год book1: {book1.year}")
@@ -363,45 +262,41 @@ print("===Метод класса show_catalog===")
 Book.show_catalog()
 print("            ")
 
-
 print("===Обработка ошибок при создании===")
 try:
-    bad_book = Book("", "Автор", 2000, 100, 500)
+    bad_book = Book("", "Автор", 2000, 100)
 except ValueError as e:
     print(f"Ошибка при пустом названии: {e}")
 
 try:
-    bad_book = Book("Название", "Автор", 1400, 100, 500)  
+    bad_book = Book("Название", "Автор", 1400, 100)  
 except ValueError as e:
     print(f"Ошибка при старом годе: {e}")
 
 try:
-    bad_book = Book("Название", "Автор", 2000, -50, 500)  
+    bad_book = Book("Название", "Автор", 2000, -50)  
 except ValueError as e:
     print(f"Ошибка при страницах: {e}")
 print("            ")
 
 try:
-    bad_book = Book("Название", "", 1600, 1000, 50)
+    bad_book = Book("Название", "", 1600, 1000)
 except ValueError as e:
     print(f"Ошибка при пустом авторе: {e}")
 
-
 print("===Демонстрация поведения, зависящего от состояния===")
 print(f"Книга до выдачи: {book3}")
-print("Пытаемся изменить цену выданной книги:")
+print("Пытаемся изменить год выданной книги:")
 try:
-    book3.price = 500
     book3.give_book()  
-    print("Книга выдана, теперь пробуем изменить цену:")
-    book3.price = 600  
+    print("Книга выдана, теперь пробуем изменить год:")
+    book3.year = 2025  
 except ValueError as e:
     print(f"Ошибка: {e}")
 
 print("\n===Демонстрация метода реставрации===")
 book1.repair()  
-book3.repair()  
-
+book3.repair()
 
 
 ```
