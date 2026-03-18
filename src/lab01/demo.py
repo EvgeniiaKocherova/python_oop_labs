@@ -1,7 +1,7 @@
 from model import Book
 
 print("===Создание книг===")
-#Демонстрация создания книг
+#Демонстрация создания книг(сценарий 1)
 book1 = Book("Вишневый сад", "Антон Павлович Чехов", 1904, 89)
 book2 = Book("Мастер и Маргарита", "Михаил Булгаков", 1967, 480, False)
 book3 = Book("Война и мир", "Лев Толстой", 1867, 1300)
@@ -48,16 +48,8 @@ print(f"Новый год book1: {book1.year}")
 print(f"Книга после изменений: {book1}")
 print("            ")
 
-print("===Атрибут класса===")
-#Демонстрация атрибутов класса
-print("Список всех созданных книг:")
-print(Book._catalog_of_books)
-print("Список через экземпляр book1:")
-print(book1._catalog_of_books)
-print(f"Всего создано книг: {len(Book._catalog_of_books)}")
-print("       ")
-
 print("===Бизнес-методы===")
+#Сценарий 2
 print(f"Книга до выдачи: {book2}")  
 
 print("Пытаемся выдать book2...")
@@ -72,6 +64,15 @@ print("Возвращаем book3...")
 book3.return_book()
 print(f"Книга после возврата: {book3}")
 print("            ")
+
+print("===Атрибут класса===")
+#Сценарий 3
+print("Список всех созданных книг:")
+print(Book._catalog_of_books)
+print("Список через экземпляр book1:")
+print(book1._catalog_of_books)
+print(f"Всего создано книг: {len(Book._catalog_of_books)}")
+print("       ")
 
 print("===Метод класса show_catalog===")
 Book.show_catalog()
