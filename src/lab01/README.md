@@ -98,12 +98,6 @@ class Book:
 
     @year.setter
     def year(self, new_year):
-        if not isinstance(new_year, int):
-            raise TypeError("год должен быть числом")
-        if new_year < 1450:  
-            raise ValueError("Год издания не может быть раньше 1450")
-        if new_year > 2026:
-            raise ValueError("год издания не может быть больше текущего")
         if not self._is_available:
             raise ValueError("Нельзя изменить год книги, которая выдана читателю")
         self._year = BookValidator.validate_year(new_year)
