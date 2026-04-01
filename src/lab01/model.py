@@ -1,14 +1,26 @@
-from validate import BookValidator
+# from validate import BookValidator
 
 class Book:
     _catalog_of_books = []
 
     def __init__(self, title, author, year, pages, is_available=True):
-        self._title = BookValidator.validate_title(title)
-        self._author = BookValidator.validate_author(author)
-        self._year = BookValidator.validate_year(year)
-        self._pages = BookValidator.validate_pages(pages)
+
+        self._title = title
+        self._author = author
+        self._year = year
+        self._pages = pages
         self._is_available = is_available
+
+        if not title or not isinstance(title, str):
+            raise ValueError("Название должно быть непустой строкой")
+        if not author or not isinstance(author, str):
+            raise ValueError("Автор должен быть непустой строкой")
+        if not isinstance(year, int) or year < 1450 or year > 2026:
+            raise ValueError("Год должен быть числом от 1450 до 2026")
+        if pages is None:
+            raise ValueError("Количество страниц должно быть указано")
+        if not isinstance(pages, int) or pages <= 0:
+            raise ValueError("Количество страниц должно быть положительным числом")
 
         Book._catalog_of_books.append(self)
 
@@ -52,7 +64,7 @@ class Book:
     def year(self, new_year):
         if not self._is_available:
             raise ValueError("Нельзя изменить год книги, которая выдана читателю")
-        self._year = BookValidator.validate_year(new_year)
+        self._year = new_year
         
     def give_book(self):
         """Выдать книгу читателю"""
