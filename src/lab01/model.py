@@ -1,5 +1,3 @@
-# from validate import BookValidator
-
 class Book:
     _catalog_of_books = []
 
@@ -33,7 +31,7 @@ class Book:
         return f'{self._title} | {self._author} | {self._year} | {status}'
     
     def __repr__(self):
-        return f"Book('{self._title}', '{self._author}', {self._year}, {self._pages}, {self._is_available})"
+        return f"Book(title = '{self._title}', author = '{self._author}', year = {self._year}, pages = {self._pages}, status = {self._is_available})"
     
     def __eq__(self, other):
         if not isinstance(other, Book):
@@ -85,7 +83,7 @@ class Book:
         return True
     
     def repair(self):
-        """Отправить книгу на реставрацию (новый метод состояния)"""
+        """Отправить книгу на реставрацию"""
         if not self._is_available:
             print("Нельзя отправить на реставрацию книгу, которая выдана")
             return False
