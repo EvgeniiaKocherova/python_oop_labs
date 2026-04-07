@@ -92,16 +92,3 @@ for book in my_library:
 print("----------------------------------------------")
 print("использование len")
 print(f"Длина списка книг в библиотеке: {len(my_library)}")
-
-
-
-print("Сценарий 4. Разница между каталогом и библиотекой")
-print("Каталог всех книг (ЛР-1):")
-Book.show_catalog()
-
-print("\nМоя библиотека (ЛР-2):")
-for book in my_library:
-    print(book)
-
-print(f"\nВ каталоге: {len(Book._catalog_of_books)} книг")
-print(f"В библиотеке: {len(my_library)} книг")
