@@ -13,7 +13,7 @@ class Library:
         if not isinstance(book, Book):
             raise ValueError("Можно добавлять только объекты Book")
         for old_book in self._items:
-            if book == old_book:
+            if book is old_book:
                 raise ValueError("Книга уже добавлена в коллекцию")
         self._items.append(book)
 
