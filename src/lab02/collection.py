@@ -1,4 +1,4 @@
-from model import Book
+from lab01.model import Book
 class Library:
     """Коллекция книг"""
     def __init__(self):
