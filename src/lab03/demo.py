@@ -27,9 +27,7 @@ print("---------------------------------------------------")
 print("Сценарий 2. Полиморфизм")
 print("----Скачивание книг----")
 for book in lib.get_all():
-    if hasattr(book, 'download'):
-        book.download()
-        print(f"{book.title} - загружается")
+    book.download()  
 
 print("---------------------------------------------------")
 
