@@ -1,24 +1,19 @@
+from lab01.validate import validate_title, validate_author, validate_year, validate_pages
 class Book:
     _catalog_of_books = []
 
     def __init__(self, title, author, year, pages, is_available=True):
 
+        validate_title(title)
+        validate_author(author)
+        validate_year(year)
+        validate_pages(pages)
+        self._is_available = is_available
+
         self._title = title
         self._author = author
         self._year = year
         self._pages = pages
-        self._is_available = is_available
-
-        if not title or not isinstance(title, str):
-            raise ValueError("Название должно быть непустой строкой")
-        if not author or not isinstance(author, str):
-            raise ValueError("Автор должен быть непустой строкой")
-        if not isinstance(year, int) or year < 1450 or year > 2026:
-            raise ValueError("Год должен быть числом от 1450 до 2026")
-        if pages is None:
-            raise ValueError("Количество страниц должно быть указано")
-        if not isinstance(pages, int) or pages <= 0:
-            raise ValueError("Количество страниц должно быть положительным числом")
 
         Book._catalog_of_books.append(self)
 
@@ -100,3 +95,9 @@ class Book:
         for book in cls._catalog_of_books:
             print(f"{cnt}. {book}")
             cnt += 1
+
+
+    def download(self):
+        """Базовый метод download. По умолчанию ничего не делает."""
+        print(f"{self._title} — нельзя скачать (это физическая книга)")
+        return False
