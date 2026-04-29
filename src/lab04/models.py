@@ -32,7 +32,7 @@ class Book(BaseBook, Printable, Comparable):
 
 
 class AudioBook(BaseAudioBook, Printable, Comparable, Downloadable):
-    def to_string(self) -> str:
+    def to_string(self):
         """Реализация Printable"""
         if self._is_downloaded:
             status = "скачана" 
@@ -56,7 +56,7 @@ class AudioBook(BaseAudioBook, Printable, Comparable, Downloadable):
     
 
 class EBook(BaseEBook, Printable, Comparable, Downloadable):
-    def to_string(self) -> str:
+    def to_string(self):
         """Реализация Printable"""
         status = "скачана" if self._is_downloaded else "не скачана"
         return f"Электронная книга: '{self._title}' | {self._author} | Формат: {self._file} | Размер: {self._size} МБ"
@@ -71,6 +71,6 @@ class EBook(BaseEBook, Printable, Comparable, Downloadable):
             return 1
         return 0
     
-    def is_downloaded(self) -> bool:
+    def is_downloaded(self):
         """Реализация Downloadable"""
         return self._is_downloaded
