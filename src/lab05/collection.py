@@ -35,34 +35,21 @@ class StrategyCollection:
 
     # ============= новые методы =============
 
-    def sort_by(self, key_func: Callable) -> 'StrategyCollection':
-        """
-        Сортировка коллекции по переданной функции-ключу.
-        Возвращает self для цепочек вызовов.
-        """
+    def sort_by(self, key_func):
+        """Сортировка коллекции по переданной функции-ключу."""
         self._items.sort(key=key_func)
         return self
 
-    def filter_by(self, predicate: Callable) -> 'StrategyCollection':
-        """
-        Фильтрация коллекции по переданному предикату.
-        Возвращает self для цепочек вызовов.
-        """
-        self._items = list(filter(predicate, self._items))
+    def filter_by(self, func):
+        """Фильтрация коллекции по переданной функции"""
+        self._items = list(filter(func, self._items))
         return self
 
-    def apply(self, func: Callable) -> 'StrategyCollection':
-        """
-        Применить функцию ко всем элементам коллекции.
-        Функция может изменять объекты или возвращать новые значения.
-        Возвращает self для цепочек вызовов.
-        """
+    def apply(self, func):
+        """Применить функцию ко всем элементам коллекции."""
         self._items = list(map(func, self._items))
         return self
 
-    def transform(self, func: Callable) -> List[Any]:
-        """
-        Преобразовать коллекцию с помощью map (возвращает новый список).
-        Не изменяет исходную коллекцию.
-        """
+    def transform(self, func):
+        """Преобразовать коллекцию с помощью map (возвращает новый список)."""
         return list(map(func, self._items))
