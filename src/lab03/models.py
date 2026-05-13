@@ -38,6 +38,12 @@ class AudioBook(Book):
         self._speed = new_speed
         print(f"Скорость изменена на {new_speed}x")
 
+    def display(self) -> str:
+        return f"Аудиокнига: '{self._title}', {self._author}, {self._year}г., {self._time}мин., читает {self._reader}"
+
+    def score(self) -> float:
+        return (self._time / 100) + (self._year / 2000) + (self._speed / 4)
+
 
 class EBook(Book):
     def __init__(self, title, author, year, pages, size, file, is_available=True, is_downloaded=False):
@@ -76,3 +82,9 @@ class EBook(Book):
             raise ValueError("Цитата не может быть пустой строкой")
         self._quotes.append(text)
         print(f"Цитата: {text} была добавлена")
+
+    def display(self) -> str:
+        return f"Электронная книга: '{self._title}', {self._author}, {self._year}г., {self._size}МБ, {self._file}"
+
+    def score(self) -> float:
+        return (self._size / 10) + (self._year / 2000)
