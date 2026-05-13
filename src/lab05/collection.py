@@ -24,8 +24,8 @@ class StrategyCollection:
         self._items.remove(item)
 
     def get_all(self):
-        """Вернуть копию списка"""
-        return self._items.copy()
+        """Показать список книг"""
+        return self._items
 
     def __len__(self):
         return len(self._items)
