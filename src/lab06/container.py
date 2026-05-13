@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Callable, Optional, List
+from typing import TypeVar, Generic, Callable, Optional, List, Protocol
 
 T = TypeVar('T')
 R = TypeVar('R')
@@ -46,3 +46,17 @@ class TypedCollection(Generic[T]):
     def map(self, transform: Callable[[T], R]) -> List[R]:
         """Применяет функцию к каждому элементу, возвращает список результатов"""
         return [transform(item) for item in self._items]
+    
+
+class Displayable(Protocol):
+    """Протокол для объектов, которые можно отобразить"""
+    def display(self) -> str:
+        ...
+
+class Scorable(Protocol):
+    """Протокол для объектов, которые можно оценить"""
+    def score(self) -> float:
+        ...
+
+D = TypeVar('D', bound=Displayable)
+S = TypeVar('S', bound=Scorable)
