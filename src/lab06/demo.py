@@ -22,16 +22,14 @@ print("Добавляем объекты:")
 collection.add(book1)
 collection.add(book2)
 collection.add(audio1)   
-collection.add(ebook1)   
+collection.add(ebook1)  
 
-print(f"В коллекции {len(collection)} элементов:")
-
-print("Все элементы:")
+print(f"В коллекции {len(collection)} элемента:")
 for i, item in enumerate(collection.get_all(), 1):
     print(f"  {i}. {item.title} — {type(item).__name__}")
 
 print("--------------" )
-print("2. Метод find() — поиск элемента по условию")
+print("2. Метод find()")
 print("--------------" )
 
 found = collection.find(lambda b: b.title == "Война и мир")
@@ -42,7 +40,7 @@ not_found = collection.find(lambda b: b.title == "Несуществующая �
 print(f"Поиск несуществующей: {not_found}")
 
 print("--------------" )
-print("3. Метод filter() — фильтрация коллекции")
+print("3. Метод filter()")
 print("--------------" )
 
 old_books = collection.filter(lambda b: b.year < 1900)
@@ -56,7 +54,7 @@ for b in long_books:
     print(f"  {b.title} — {b.pages} стр.")
 
 print("--------------" )
-print("4. Метод map() — преобразование (тип результата меняется)")
+print("4. Метод map() — тип результата меняется")
 print("--------------" )
 
 titles: List[str] = collection.map(lambda b: b.title)
@@ -70,7 +68,7 @@ for year in years:
     print(f"  {year}")
 
 descriptions: List[str] = collection.map(lambda b: f"'{b.title}' ({b.year})")
-print("\nmap() -> короткие описания:")
+print("map() - короткие описания:")
 for desc in descriptions:
     print(f"  {desc}")
 
@@ -79,9 +77,8 @@ print("--------------" )
 print("5. Комбинация методов (filter + map)")
 print("--------------" )
 
-# Названия книг после 1900 года
 result = collection.filter(lambda b: b.year >= 1900)
-result = [b.title for b in result]  # или через map
+result = [b.title for b in result]  
 print("Названия книг после 1900 года:")
 for title in result:
     print(f"  {title}")
