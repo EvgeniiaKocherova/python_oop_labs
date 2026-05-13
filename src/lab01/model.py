@@ -101,3 +101,9 @@ class Book:
         """Базовый метод download. По умолчанию ничего не делает."""
         print(f"{self._title} — нельзя скачать (это физическая книга)")
         return False
+    
+    def display(self) -> str:
+        return f"Книга: '{self._title}', {self._author}, {self._year}г., {self._pages}стр."
+
+    def score(self) -> float:
+        return (self._pages / 100) + (self._year / 2000)
