@@ -4,6 +4,8 @@
 * Лабораторная работа 3 - [здесь](https://github.com/EvgeniiaKocherova/python_oop_labs/tree/main/src/lab03)  
 * Лабораторная работа 4 - [здесь](https://github.com/EvgeniiaKocherova/python_oop_labs/tree/main/src/lab04)
 * Лабораторная работа 5 - [здесь](https://github.com/EvgeniiaKocherova/python_oop_labs/tree/main/src/lab05)      
-* Лабораторная работа 6 - [здесь](https://github.com/EvgeniiaKocherova/python_oop_labs/tree/main/src/lab06)      
-...
+* Лабораторная работа 6 - [здесь](https://github.com/EvgeniiaKocherova/python_oop_labs/tree/main/src/lab06)  
+* Лабораторная работа 7 - [здесь](https://github.com/EvgeniiaKocherova/python_oop_labs/tree/main/src/lab07)   
+
+Всн лабораторные выполнены ( •̯́ ₃ •̯̀)  
 
