@@ -12,6 +12,38 @@ class LibraryApp:
     def get_all_books(self) -> List[Book]:
         '''Вывод всез книг'''
         return self._collection.get_all()
+    
+    def create_book_from_data(self, data: dict) -> Book:
+        """Создаёт книгу из словаря с данными (фабричный метод)."""
+        book_type = data['type']
+        
+        if book_type == 1:
+            return Book(
+                title=data['title'],
+                author=data['author'],
+                year=data['year'],
+                pages=data['pages']
+            )
+        elif book_type == 2:
+            return AudioBook(
+                title=data['title'],
+                author=data['author'],
+                year=data['year'],
+                pages=data['pages'],
+                time=data['time'],
+                reader=data['reader']
+            )
+        elif book_type == 3:
+            return EBook(
+                title=data['title'],
+                author=data['author'],
+                year=data['year'],
+                pages=data['pages'],
+                size=data['size'],
+                file=data['file']
+            )
+        else:
+            raise ValueError(f"Неизвестный тип книги: {book_type}")
 
     def add_book(self, book: Book) -> None:
         '''Добавить книгу'''

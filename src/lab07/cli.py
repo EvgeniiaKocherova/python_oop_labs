@@ -1,6 +1,4 @@
 from typing import List, Optional
-from lab01.model import Book
-from lab03.models import AudioBook, EBook
 from lab07.app import LibraryApp
 from lab07.exceptions import ItemNotFoundError, DuplicateItemError
 from lab07.storage import save, load
@@ -48,19 +46,27 @@ class CLI:
         author = self._input("Автор: ")
         year = self._input("Год: ", int, 1450, 2026)
         pages = self._input("Страниц: ", int, 1)
-
-        if t == 1:
-            return Book(title, author, year, pages)
-        elif t == 2:
-            time = self._input("Длительность (мин): ", float, 0.1)
-            reader = self._input("Чтец: ")
-            return AudioBook(title, author, year, pages, time, reader)
-        else:
-            size = self._input("Размер (МБ): ", float, 0.01)
-            file = self._input("Имя файла: ")
-            if not file.endswith((".pdf", ".epub", ".fb2")):
-                raise ValueError(f"Неподдерживаемый формат: {file}")
-            return EBook(title, author, year, pages, size, file)
+        
+    def _get_book_data(self) -> Optional[dict]:
+        """Собирает данные о книге от пользователя (НЕ создаёт объект!)."""
+        self._print_header("Добавление книги")
+        
+        data = {
+            'type': self._input("Тип (1-бумажная, 2-аудио, 3-электронная): ", int, 1, 3),
+            'title': self._input("Название: "),
+            'author': self._input("Автор: "),
+            'year': self._input("Год: ", int, 1450, 2026),
+            'pages': self._input("Страниц: ", int, 1)
+        }
+        
+        if data['type'] == 2:
+            data['time'] = self._input("Длительность (мин): ", float, 0.1)
+            data['reader'] = self._input("Чтец: ")
+        elif data['type'] == 3:
+            data['size'] = self._input("Размер (МБ): ", float, 0.01)
+            data['file'] = self._input("Имя файла: ")
+        
+        return data
 
     def run(self) -> None:
         while True:
