@@ -5,11 +5,3 @@ class ItemNotFoundError(Exception):
 class DuplicateItemError(Exception):
     """Книга с таким названием и автором уже существует"""
     pass
-
-class InvalidInputError(Exception):
-    """Некорректный ввод"""
-    pass
-
-class ValidationError(Exception):
-    """Ошибка валидации данных"""
-    pass
