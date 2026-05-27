@@ -59,8 +59,7 @@ class CLI:
             size = self._input("Размер (МБ): ", float, 0.01)
             file = self._input("Имя файла: ")
             if not file.endswith((".pdf", ".epub", ".fb2")):
-                print("Неподдерживаемый формат")
-                return None
+                raise ValueError(f"Неподдерживаемый формат: {file}")
             return EBook(title, author, year, pages, size, file)
 
     def run(self) -> None:
