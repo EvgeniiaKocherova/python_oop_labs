@@ -1,7 +1,7 @@
-from typing import List, Optional
-from lab07.app import LibraryApp
-from lab07.exceptions import ItemNotFoundError, DuplicateItemError
-from lab07.storage import save, load
+from typing import Optional
+from app import LibraryApp
+from exceptions import ItemNotFoundError, DuplicateItemError
+from storage import save, load
 
 
 class CLI:
@@ -13,7 +13,7 @@ class CLI:
         print(f"  {title}")
         print("=" * 60)
 
-    def _print_books(self, books: List[Book], title: str = "Список книг") -> None:
+    def _print_books(self, books, title: str = "Список книг") -> None:
         if not books:
             print("Коллекция пуста")
             return
@@ -39,16 +39,8 @@ class CLI:
             except ValueError:
                 print(f"Ошибка: введите {type_func.__name__}")
 
-    def _create_book(self) -> Optional[Book]:
-        self._print_header("Добавление книги")
-        t = self._input("Тип (1-бумажная, 2-аудио, 3-электронная): ", int, 1, 3)
-        title = self._input("Название: ")
-        author = self._input("Автор: ")
-        year = self._input("Год: ", int, 1450, 2026)
-        pages = self._input("Страниц: ", int, 1)
-        
     def _get_book_data(self) -> Optional[dict]:
-        """Собирает данные о книге от пользователя (НЕ создаёт объект!)."""
+        """Собирает данные о книге от пользователя."""
         self._print_header("Добавление книги")
         
         data = {
@@ -98,9 +90,9 @@ class CLI:
                 elif choice == 1:
                     self._print_books(self.app.get_all_books())
                 elif choice == 2:
-                    book = self._create_book()
-                    if book:
-                        self.app.add_book(book)
+                    book_data = self._get_book_data()
+                    if book_data:
+                        self.app.add_book_from_data(book_data)
                 elif choice == 3:
                     title = self._input("Название книги для удаления: ")
                     confirm = input(f"Удалить '{title}'? (y/n): ").lower()
@@ -111,7 +103,11 @@ class CLI:
                     title = self._input("Название: ")
                     book = self.app.find_book_by_title(title)
                     if book:
-                        print(f"\n{book}")
+                        print(f"\nНазвание: {book.title}")
+                        print(f"Автор: {book.author}")
+                        print(f"Год: {book.year}")
+                        print(f"Страниц: {book.pages}")
+                        print(f"Статус: {'в наличии' if book.is_available else 'выдана'}")
                     else:
                         print("Не найдено")
                 elif choice == 5:
@@ -126,10 +122,12 @@ class CLI:
                     books = self.app.filter_books(lambda b: min_y <= b.year <= max_y)
                     self._print_books(books, f"Книги {min_y}-{max_y} гг.")
                 elif choice == 8:
-                    self.app.give_book(self._input("Название: "))
+                    title = self._input("Название: ")
+                    self.app.give_book(title)
                     print("Книга выдана")
                 elif choice == 9:
-                    self.app.return_book(self._input("Название: "))
+                    title = self._input("Название: ")
+                    self.app.return_book(title)
                     print("Книга возвращена")
                 elif choice == 10:
                     print("1. По названию\n2. По году\n3. По страницам\n4. По автору")
@@ -139,7 +137,9 @@ class CLI:
                     print("Отсортировано")
                 elif choice == 11:
                     stats = self.app.get_statistics()
-                    print(f"\nВсего: {stats['total']}\nДоступно: {stats['available']}\nВыдано: {stats['checked_out']}")
+                    print(f"\nВсего: {stats['total']}")
+                    print(f"Доступно: {stats['available']}")
+                    print(f"Выдано: {stats['checked_out']}")
                 elif choice == 12:
                     if self._input("Очистить всё? (y/n): ") == 'y':
                         self.app.clear_collection()

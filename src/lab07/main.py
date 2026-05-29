@@ -4,6 +4,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
+from lab07.exceptions import DuplicateItemError
 from lab07.app import LibraryApp
 from lab07.cli import CLI
 from lab07.storage import load
@@ -21,8 +22,8 @@ def main() -> None:
     for book in saved_books:
         try:
             app.add_book(book)
-        except:
-            pass
+        except DuplicateItemError:  
+            print(f"Дубрикат: {book.title} пропущен")
     
     print(f"Загружено {len(saved_books)} книг\n")
     

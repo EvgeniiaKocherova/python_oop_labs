@@ -2,7 +2,7 @@ from typing import List, Optional, Dict, Any, Callable
 from lab01.model import Book
 from lab03.models import AudioBook, EBook
 from lab05.collection import StrategyCollection
-from lab07.exceptions import DuplicateItemError, ItemNotFoundError
+from exceptions import DuplicateItemError, ItemNotFoundError
 
 
 class LibraryApp:
@@ -10,7 +10,7 @@ class LibraryApp:
         self._collection = StrategyCollection()
 
     def get_all_books(self) -> List[Book]:
-        '''Вывод всез книг'''
+        '''Вывод всех книг'''
         return self._collection.get_all()
     
     def create_book_from_data(self, data: dict) -> Book:
@@ -51,6 +51,11 @@ class LibraryApp:
             raise DuplicateItemError(f"Книга '{book.title}' автора '{book.author}' уже существует")
         self._collection.add(book)
 
+    def add_book_from_data(self, data: dict) -> None:
+        '''Добавить книгу из словаря с данными'''
+        book = self.create_book_from_data(data)
+        self.add_book(book)
+
     def remove_book(self, title: str) -> bool:
         '''Убрать книгу'''
         book = self.find_book_by_title(title)
@@ -72,7 +77,7 @@ class LibraryApp:
         return None
 
     def filter_books(self, predicate: Callable[[Book], bool]) -> List[Book]:
-        '''Отфильтровать кнги'''
+        '''Отфильтровать книги'''
         return [b for b in self._collection.get_all() if predicate(b)]
 
     def sort_books(self, key_func: Callable[[Book], Any]) -> None:
@@ -114,5 +119,5 @@ class LibraryApp:
         self._collection = StrategyCollection()
 
     def count(self) -> int:
-        '''Ввыести количество книг'''
+        '''Вывести количество книг'''
         return len(self._collection.get_all())
